@@ -5,6 +5,7 @@ import FormButton from '../../components/FormButtom';
 import FormInput from '../../components/FormInputs';
 import SocialButton from '../../components/SocialButtom';
 import { Colours } from '../../utilities/Colours';
+import { AuthContext } from '../../navigation/AuthProvider';
 
 const SignupScreen = () => {
 
@@ -14,7 +15,7 @@ const SignupScreen = () => {
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
   
-    //const {register} = useContext(AuthContext);
+    const {register} = useContext(AuthContext)
   
     return (
       <View style={styles.container}>

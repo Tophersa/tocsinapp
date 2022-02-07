@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "111182893404",
+    "project_id": "tocsinapp-20938",
+    "storage_bucket": "tocsinapp-20938.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111182893404:android:46faf12aad9424523af199",
+        "android_client_info": {
+          "package_name": "com.tocsinreal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111182893404-q9696ei2gejislprd0qp0cj10ibm8oab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxftVNGQfE_hGQWMMKPbe0QXxT1dSzAUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111182893404-q9696ei2gejislprd0qp0cj10ibm8oab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

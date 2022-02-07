@@ -1,8 +1,8 @@
 import React from 'react';
 import type {Node} from 'react';
-
+import Home from './src/screens/Home/Home';
 import Router from './src/navigation/Router';
-
+import  Providers  from './src/navigation/index'
 
 import {SafeAreaView,StyleSheet,Text,View,} from 'react-native';
 
@@ -11,7 +11,9 @@ const App: () => Node = () => {
   
   return (
     <>
-      <Router/>
+      <Home/>
+      {/* <Text>ffffff</Text> */}
+      {/* <Router/> */}
     </>
      
   );
