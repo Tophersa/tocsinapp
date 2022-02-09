@@ -14,11 +14,10 @@ const AppStack = () => {
   return (
 
       <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="OnboardingScreen" component={OnboardingScreen}
             options={{headerShown: false}}
         />
-        <Stack.Screen name="Home" component={Home}/>
-
     </Stack.Navigator>
 
   );

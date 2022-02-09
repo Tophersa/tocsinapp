@@ -11,9 +11,9 @@ const App: () => Node = () => {
   
   return (
     <>
-      <Home/>
+      {/* <Home/> */}
       {/* <Text>ffffff</Text> */}
-      {/* <Router/> */}
+      <Providers/>
     </>
      
   );
