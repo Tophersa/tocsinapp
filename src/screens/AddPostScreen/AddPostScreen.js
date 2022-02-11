@@ -5,11 +5,36 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import ImagePicker from 'react-native-image-crop-picker';
 
 const AddPostScreen = () => {
 
+    const [image, setImage] = useState(null);
     const [number, onChangeNumber] = React.useState(null);
+
+    const takePhotoFromCamera = () => {
+        ImagePicker.openCamera({
+          width: 1200,
+          height: 780,
+          cropping: true,
+        }).then((image) => {
+          console.log(image);
+          const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+          setImage(imageUri);
+        });
+      };
+    
+      const choosePhotoFromLibrary = () => {
+        ImagePicker.openPicker({
+          width: 1200,
+          height: 780,
+          cropping: true,
+        }).then((image) => {
+          console.log(image);
+          const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+          setImage(imageUri);
+        });
+      };
 
   return (
       <View style={styles.container}>
@@ -35,10 +60,10 @@ const AddPostScreen = () => {
         </View>
 
         <ActionButton buttonColor="rgba(231,76,60,1)" style={[{bottom: 50}]}>
-          <ActionButton.Item buttonColor='#9b59b6' title="Take Photo" onPress={() => console.log("notes tapped!")}>
+          <ActionButton.Item buttonColor='#9b59b6' title="Take Photo" onPress={takePhotoFromCamera}>
             <Icon name="camera" style={styles.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="Choose Photo" onPress={() => {}}>
+          <ActionButton.Item buttonColor='#1abc9c' title="Choose Photo" onPress={choosePhotoFromLibrary}>
             <MaterialIcons name="photo-library" style={styles.actionButtonIcon} />
           </ActionButton.Item>
         </ActionButton>
