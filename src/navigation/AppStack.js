@@ -8,6 +8,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import Home from '../screens/Home/Home';
 import OnboardingScreen from '../screens/OnBoarding/OnBoardingScreen';
 import HomeTabNavigator from './HomeTabNavigator';
+import AddPostScreen from '../screens/AddPostScreen/AddPostScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ const AppStack = () => {
         <Stack.Screen name="HomeTabNavigator" component={HomeTabNavigator} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
         <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="AddPostScreen" component={AddPostScreen} />
     </Stack.Navigator>
 
   );
