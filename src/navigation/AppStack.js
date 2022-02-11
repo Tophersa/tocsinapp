@@ -19,7 +19,14 @@ const AppStack = () => {
         <Stack.Screen name="HomeTabNavigator" component={HomeTabNavigator} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
         <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="AddPostScreen" component={AddPostScreen} />
+        <Stack.Screen name="AddPostScreen" component={AddPostScreen}  
+        options={{ title: "", headerStyle:{
+          backgroundColor: '#D6EAF8',
+          shadowColor: 'transparent',
+          elevation: 0,
+          borderBottomWidth: 0,
+          shadowOpacity: 0
+        }}}/>
     </Stack.Navigator>
 
   );
