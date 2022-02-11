@@ -3,7 +3,8 @@ import { Colours } from '../../utilities/Colours'
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: '#D6EAF8'
+        backgroundColor: '#D6EAF8',
+        height: '100%',
     },
     container: {
         backgroundColor: Colours.WHITE,
