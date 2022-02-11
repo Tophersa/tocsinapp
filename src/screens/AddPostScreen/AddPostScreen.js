@@ -2,6 +2,9 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import styles from './styles'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const AddPostScreen = () => {
@@ -30,6 +33,16 @@ const AddPostScreen = () => {
                 numberOfLines={10}
             />
         </View>
+
+        <ActionButton buttonColor="rgba(231,76,60,1)" style={[{bottom: 50}]}>
+          <ActionButton.Item buttonColor='#9b59b6' title="Take Photo" onPress={() => console.log("notes tapped!")}>
+            <Icon name="camera" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item buttonColor='#1abc9c' title="Choose Photo" onPress={() => {}}>
+            <MaterialIcons name="photo-library" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+
         <TouchableOpacity style={styles.sendButton}>
             <Ionicons name="send-sharp" size={35} color="white" />
         </TouchableOpacity>

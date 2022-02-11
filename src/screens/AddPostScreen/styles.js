@@ -37,7 +37,12 @@ const styles = StyleSheet.create({
         width: '95%',
         borderRadius: 10,
         margin: 10
-    }
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+      },
 
   });
   
