@@ -7,13 +7,14 @@ import {Colours} from '../utilities/Colours'
 import Home from '../screens/Home/Home';
 import Profile from '../screens/Profile/Profile';
 import PostScreen from '../screens/PostScreen/PostScreen';
+import ReportScreen from '../screens/ReportScreen/ReportScreen';
 
 //Icons
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/dist/MaterialIcons';
+import Entypo from 'react-native-vector-icons/dist/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const BottonTabOptions = {
@@ -41,7 +42,8 @@ const BottonTabOptions = {
   tabBarLabelStyle: { fontWeight: '700'},
 }
 
-const focusedColor = '#2B325D'
+// const focusedColor = '#2B325D'
+const focusedColor = 'red'
 
 const Tab = createBottomTabNavigator();
 
@@ -57,6 +59,11 @@ const HomeTabNavigator = () => {
           <Tab.Screen name="Alerts" component={PostScreen} 
               options={{tabBarIcon: ({color, focused}) =>(
                 <MaterialCommunityIcons name="alarm-light" color={focused?focusedColor:color} size={30}/>  
+              ),headerShown: false}}    
+          />
+          <Tab.Screen name="Report" component={ReportScreen} 
+              options={{tabBarIcon: ({color, focused}) =>(
+                <Entypo name="location" color={focused?focusedColor:color} size={30}/>  
               ),headerShown: false}}    
           />
           <Tab.Screen name="Profile" component={Profile} 
