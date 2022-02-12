@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import { useNavigation } from '@react-navigation/native'
 import MaterialIcons from 'react-native-vector-icons//MaterialIcons';
@@ -19,64 +19,142 @@ const PostScreen = () => {
     const navigation = useNavigation();
 
     const renderItem = ({ item }) => (
-        <PostScreenComponent 
+        <PostScreenComponent
+        id = {item.id}
         userId={item.userId}
         userName={item.userName} 
         userImage={item.userImage} 
         location={item.location}
         post={item.post}
         postTime={item.postTime}
-        postImage={item.postImage}
+        postImg={item.postImg}
         liked={item.liked}
         likes={item.likes}
         comments={item.comments}
+
+        onDelete = {handleDelete}
         />
       );
 
-      useEffect(()=>{
-        const fetchPosts = async()=>{
-            try{
-
-                const list = [];
-
-                 await firestore()
-                .collection('posts')
-                .orderBy('postTime', 'desc')
-                .get()
-                .then((querySnapshot)=>{
-                    // console.log('Total Posts: ', querySnapshot.size);
-                    querySnapshot.forEach((doc) => {
-                        const {userId, location, post, postImg, postTime, likes,comments,}=doc.data();
-                        list.push({
-                            id: doc.id,
-                            userId: userId,
-                            userName: 'Test Name',
-                            userImage: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-                            location: location,
-                            post: post,
-                            postTime: postTime,
-                            postImage: postImg,
-                            liked: false,
-                            likes: likes,
-                            comments: comments
-                        });
-                    })
-                })
-
-            setPosts(list);
-
-            if(loading){
-                setLoading(false);
-            }
-
-            console.log('Posts :', list);
-
-            } catch(e){
-                console.log(e);
-            }
+      const fetchPosts = async () => {
+        try {
+          const list = [];
+    
+          await firestore()
+            .collection('posts')
+            .orderBy('postTime', 'desc')
+            .get()
+            .then((querySnapshot) => {
+              // console.log('Total Posts: ', querySnapshot.size);
+    
+              querySnapshot.forEach((doc) => {
+                const {userId, location, post, postImg, postTime, likes,comments,}=doc.data();
+                list.push({
+                    id: doc.id,
+                    userId: userId,
+                    userName: 'Test Name',
+                    userImage: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                    location: location,
+                    post: post,
+                    postTime: postTime,
+                    postImg: postImg,
+                    liked: false,
+                    likes: likes,
+                    comments: comments
+                });
+              });
+            });
+    
+          setPosts(list);
+    
+          if (loading) {
+            setLoading(false);
+          }
+    
+          console.log('Posts: ', posts);
+        } catch (e) {
+          console.log(e);
         }
+      };
+
+      useEffect(() => {
         fetchPosts();
-      },[]);
+      }, []);
+    
+      useEffect(() => {
+        fetchPosts();
+        setDeleted(false);
+      }, [deleted]);
+
+      const handleDelete = (postId) => {
+        Alert.alert(
+          'Delete post',
+          'Are you sure?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed!'),
+              style: 'cancel',
+            },
+            {
+              text: 'Confirm',
+              onPress: () => deletePost(postId),
+            },
+          ],
+          {cancelable: false},
+        );
+      };
+
+      const deletePost = (postId) => {
+        console.log('Current Post Id: ', postId);
+    
+        firestore()
+          .collection('posts')
+          .doc(postId)
+          .get()
+          .then((documentSnapshot) => {
+            if (documentSnapshot.exists) {
+              const {postImg} = documentSnapshot.data();
+    
+              if (postImg != null) {
+                const storageRef = storage().refFromURL(postImg);
+                const imageRef = storage().ref(storageRef.fullPath);
+    
+                imageRef
+                  .delete()
+                  .then(() => {
+                    console.log(`${postImg} has been deleted successfully.`);
+                    deleteFirestoreData(postId);
+                  })
+                  .catch((e) => {
+                    console.log('Error while deleting the image. ', e);
+                  });
+                // If the post image is not available
+              } else {
+                deleteFirestoreData(postId);
+              }
+            }
+          });
+      };
+
+      const deleteFirestoreData = (postId) => {
+        firestore()
+          .collection('posts')
+          .doc(postId)
+          .delete()
+          .then(() => {
+            Alert.alert(
+              'Post deleted!',
+              'Your post has been deleted successfully!',
+            );
+            setDeleted(true);
+          })
+          .catch((e) => console.log('Error deleting post.', e));
+      };
+
+    const ListHeader = () =>{
+        return null;
+    };
 
   return (
       <View style={styles.wrapper}>
