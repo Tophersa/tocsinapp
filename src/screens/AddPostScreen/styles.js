@@ -16,13 +16,19 @@ const styles = StyleSheet.create({
         borderColor: 'grey'
 
     },
+    imagePreview: {
+        height: 100,
+        width: 100,
+        // resizeMode: 'cover',
+        marginBottom: 15
+    },
     postInput: {
         backgroundColor: 'white',
         margin: 10,
-        height: '80%',
+        height: '60%',
         // alignItems: 'center',
         // justifyContent: 'center',
-        fontSize: 18,
+        fontSize: 15,
         textAlign: 'center',
         borderRadius: 5,
     },
@@ -37,6 +43,10 @@ const styles = StyleSheet.create({
         width: '95%',
         borderRadius: 10,
         margin: 10
+    },
+    indicator: {
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     actionButtonIcon: {
         fontSize: 20,

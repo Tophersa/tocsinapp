@@ -1,15 +1,23 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import { View, Text, TextInput, TouchableOpacity, Platform, Image, ActivityIndicator, Alert } from 'react-native'
+import React, {useState, useContext} from 'react'
 import styles from './styles'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
+import { AuthContext } from '../../navigation/AuthProvider';
+
+import storage from '@react-native-firebase/storage';
 
 const AddPostScreen = () => {
 
+    const {user, logout} = useContext(AuthContext);
+
     const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [transferred, setTransferred] = useState(0);
+    const [post, setPost] = useState(null);
     const [number, onChangeNumber] = React.useState(null);
 
     const takePhotoFromCamera = () => {
@@ -36,6 +44,57 @@ const AddPostScreen = () => {
         });
       };
 
+      const uploadImage = async () => {
+        if( image == null ) {
+          return null;
+        }
+        const uploadUri = image;
+        let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+    
+        // Add timestamp to File Name
+        const extension = filename.split('.').pop(); 
+        const name = filename.split('.').slice(0, -1).join('.');
+        filename = name + Date.now() + '.' + extension;
+    
+        setUploading(true);
+        setTransferred(0);
+    
+        const storageRef = storage().ref(`photos/${filename}`);
+        const task = storageRef.putFile(uploadUri);
+    
+        // Set transferred state
+        task.on('state_changed', (taskSnapshot) => {
+          console.log(
+            `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+          );
+    
+          setTransferred(
+            Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+              100,
+          );
+        });
+    
+        try {
+          await task;
+    
+          const url = await storageRef.getDownloadURL();
+    
+          setUploading(false);
+          setImage(null);
+    
+          // Alert.alert(
+          //   'Image uploaded!',
+          //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
+          // );
+          return url;
+    
+        } catch (e) {
+          console.log(e);
+          return null;
+        }
+    
+      };
+
   return (
       <View style={styles.container}>
         <View>
@@ -49,6 +108,7 @@ const AddPostScreen = () => {
             />
         </View>
         <View>
+            {image != null ? <Image source={{uri: image}} style={styles.imagePreview}/> : null}
             <TextInput
                 style={styles.postInput}
                 onChangeText={onChangeNumber}
@@ -68,9 +128,15 @@ const AddPostScreen = () => {
           </ActionButton.Item>
         </ActionButton>
 
-        <TouchableOpacity style={styles.sendButton}>
+        {uploading?
+        (<View style={styles.indicator}>
+            <Text>{transferred} % Completed!</Text>
+            <ActivityIndicator size={'large'} color="#0000ff"/>
+        </View>):
+        (<TouchableOpacity style={styles.sendButton} onPress={uploadImage}>
             <Ionicons name="send-sharp" size={35} color="white" />
-        </TouchableOpacity>
+        </TouchableOpacity>)
+        }
     </View>
   )
 }
