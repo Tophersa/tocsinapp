@@ -9,6 +9,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { AuthContext } from '../../navigation/AuthProvider';
 
 import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
 const AddPostScreen = () => {
 
@@ -18,6 +19,7 @@ const AddPostScreen = () => {
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
     const [post, setPost] = useState(null);
+    const [location, setLocation] = useState(null);
     const [number, onChangeNumber] = React.useState(null);
 
     const takePhotoFromCamera = () => {
@@ -43,6 +45,39 @@ const AddPostScreen = () => {
           setImage(imageUri);
         });
       };
+
+      const submitPost = async () => {
+        const imageUrl = await uploadImage();
+        console.log('User Id: ', user.uid);
+        console.log('Image Url: ', imageUrl);
+        console.log('Location: ', location);
+        console.log('Post: ', post);
+    
+        firestore()
+        .collection('posts')
+        .add({
+          userId: user.uid,
+          location: location,
+          post: post,
+          postImg: imageUrl,
+          postTime: firestore.Timestamp.fromDate(new Date()),
+          likes: null,
+          comments: null,
+        })
+        .then(() => {
+          console.log('Post Added!');
+          Alert.alert(
+            'Post published!',
+            'Your post has been published Successfully!',
+          );
+          setPost(null);
+          setLocation(null);
+        })
+        .catch((error) => {
+          console.log('Something went wrong with added post to firestore.', error);
+        });
+      }
+    
 
       const uploadImage = async () => {
         if( image == null ) {
@@ -100,8 +135,8 @@ const AddPostScreen = () => {
         <View>
             <TextInput
                 style={styles.locationInput}
-                onChangeText={onChangeNumber}
-                value={number}
+                onChangeText={(content)=> setLocation(content)}
+                value={location}
                 placeholder="Choose location..."
                 multiline
                 numberOfLines={2}
@@ -111,8 +146,8 @@ const AddPostScreen = () => {
             {image != null ? <Image source={{uri: image}} style={styles.imagePreview}/> : null}
             <TextInput
                 style={styles.postInput}
-                onChangeText={onChangeNumber}
-                value={number}
+                onChangeText={(content)=> setPost(content)}
+                value={post}
                 placeholder="What's on your mind?"
                 multiline
                 numberOfLines={10}
@@ -133,7 +168,7 @@ const AddPostScreen = () => {
             <Text>{transferred} % Completed!</Text>
             <ActivityIndicator size={'large'} color="#0000ff"/>
         </View>):
-        (<TouchableOpacity style={styles.sendButton} onPress={uploadImage}>
+        (<TouchableOpacity style={styles.sendButton} onPress={submitPost}>
             <Ionicons name="send-sharp" size={35} color="white" />
         </TouchableOpacity>)
         }
