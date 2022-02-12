@@ -9,6 +9,7 @@ import { DATA } from '../../../assets/data';
 
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import ShimmerEffect from '../../components/ShimmerEffect';
 
 const PostScreen = () => {
 
@@ -158,6 +159,8 @@ const PostScreen = () => {
 
   return (
       <View style={styles.wrapper}>
+        {loading?<ShimmerEffect/>:
+          <>
             <TouchableOpacity style={styles.createAlert} onPress={()=> navigation.navigate('AddPostScreen')}>
                 <MaterialIcons name="add-box" size={25} color="#2E86C1" />
                 <Text style={styles.createAlertText}>What's on your mind?</Text>
@@ -175,7 +178,8 @@ const PostScreen = () => {
                 <Text style={styles.addPostButtonText}>+</Text>
             </TouchableOpacity>
 
-      <View style={[{height: 80}]}></View>
+            <View style={[{height: 80}]}></View>
+        </>}
     </View>
   )
 }
