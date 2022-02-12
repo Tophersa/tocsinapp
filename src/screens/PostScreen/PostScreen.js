@@ -20,6 +20,7 @@ const PostScreen = () => {
 
     const renderItem = ({ item }) => (
         <PostScreenComponent 
+        userId={item.userId}
         userName={item.userName} 
         userImage={item.userImage} 
         location={item.location}
@@ -40,6 +41,7 @@ const PostScreen = () => {
 
                  await firestore()
                 .collection('posts')
+                .orderBy('postTime', 'desc')
                 .get()
                 .then((querySnapshot)=>{
                     // console.log('Total Posts: ', querySnapshot.size);
@@ -47,6 +49,7 @@ const PostScreen = () => {
                         const {userId, location, post, postImg, postTime, likes,comments,}=doc.data();
                         list.push({
                             id: doc.id,
+                            userId: userId,
                             userName: 'Test Name',
                             userImage: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
                             location: location,

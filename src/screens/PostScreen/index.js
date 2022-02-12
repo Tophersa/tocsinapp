@@ -1,12 +1,15 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import styles from './styles'
 import Ionicons from 'react-native-vector-icons//Ionicons';
 import EvilIcons from 'react-native-vector-icons//EvilIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { AuthContext } from '../../navigation/AuthProvider';
 
-const PostScreenComponent = ({userName, userImage, location, post, postTime, postImage, liked, likes, comments}) => {
-   let commentText
+const PostScreenComponent = ({userId, userName, userImage, location, post, postTime, postImage, liked, likes, comments}) => {
+   const {user, logout} = useContext(AuthContext);
+   
+    let commentText
    let likeText
     
   if(postImage == 'none'){
@@ -62,9 +65,14 @@ const PostScreenComponent = ({userName, userImage, location, post, postTime, pos
                 <Text style={styles.reactText}>{likeText}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.reactContainer2} onPress={() => alert('comment clicked!')}>
-                <EvilIcons name="comment" size={25} color="#900" />
+                <EvilIcons name="comment" size={25} color="black" />
                 <Text style={styles.reactText}>{commentText}</Text>
             </TouchableOpacity>
+            {user.uid == userId?
+            <TouchableOpacity style={styles.reactContainer2} onPress={() => alert('comment clicked!')}>
+                <EvilIcons name="trash" size={25} color="#900" />
+            </TouchableOpacity>: null}
+
 
         </View>
     </View>
