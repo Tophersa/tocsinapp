@@ -67,7 +67,7 @@ const AddPostScreen = () => {
         .then(() => {
           console.log('Post Added!');
           Alert.alert(
-            'Post published!',
+            'Alert Created!',
             'Your post has been published Successfully!',
           );
           setPost(null);

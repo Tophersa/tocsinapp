@@ -35,11 +35,11 @@ const PostScreenComponent = ({userName, userImage, location, post, postTime, pos
     <View style={styles.container}>
         <View style={styles.profileContainer}>
             <View style={styles.pictureContainer}>
-                <Image style={styles.ppicture} source={userImage}/>
+                <Image style={styles.ppicture} source={{uri: userImage}}/>
             </View>
             <View style={styles.namesContainer}>
                 <Text style={styles.usernameText}>{userName}</Text>
-                <Text style={styles.postTime}>{postTime}</Text>
+                <Text style={styles.postTime}>{postTime.toString()}</Text>
             </View>
         </View>
 
@@ -53,7 +53,7 @@ const PostScreenComponent = ({userName, userImage, location, post, postTime, pos
         </View>
 
         <View style={styles.imageContainer}>
-            {postImage?<Image style={styles.postPicture} source={postImage}/>: null}
+            {postImage?<Image style={styles.postPicture} source={{uri: postImage}}/>: null}
         </View>
 
         <View style={styles.reactionsContainer}>
