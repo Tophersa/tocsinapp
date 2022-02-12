@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons//Ionicons';
 import EvilIcons from 'react-native-vector-icons//EvilIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../../navigation/AuthProvider';
+import moment from 'moment'
 
 const PostScreenComponent = ({onDelete, id, userId, userName, userImage, location, post, postTime, postImg, liked, likes, comments}) => {
    const {user, logout} = useContext(AuthContext);
@@ -42,7 +43,7 @@ const PostScreenComponent = ({onDelete, id, userId, userName, userImage, locatio
             </View>
             <View style={styles.namesContainer}>
                 <Text style={styles.usernameText}>{userName}</Text>
-                <Text style={styles.postTime}>{postTime.toString()}</Text>
+                <Text style={styles.postTime}>{moment(postTime.toDate()).fromNow()}</Text>
             </View>
         </View>
 

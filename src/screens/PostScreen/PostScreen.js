@@ -171,9 +171,9 @@ const PostScreen = () => {
                 refreshing={true}
             />
 
-            {/* <View style={styles.addPostButton}>
-                <Text>+</Text>
-            </View> */}
+            <TouchableOpacity style={styles.addPostButton} onPress={()=> navigation.navigate('AddPostScreen')}>
+                <Text style={styles.addPostButtonText}>+</Text>
+            </TouchableOpacity>
 
       <View style={[{height: 80}]}></View>
     </View>
@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
     addPostButton:{
         backgroundColor: 'green',
         height: '100%',
-        height: 60,
-        width: 60,
-        borderRadius: 30,
+        height: 40,
+        width: 40,
+        borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
@@ -219,6 +219,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 20,
         elevation: 4
-
     },
+    addPostButtonText: {
+        color: 'white',
+        fontSize: 25
+    }
 });
